@@ -67,38 +67,70 @@ function getPlayerNumbers(bombs, maxTries, maxRandomRange) {
   return playerNumbers;
 }
 
+function drawGameField() {
+  const row = document.getElementById("cellsRow");
+  for (let i = 0; i < maxRange; i++) {
+    const cell = document.createElement("div");
+    cell.classList.add("cell");
+    row.append(cell);
+  }
+}
+
 // ======================================
 //   MAIN
 // ======================================
 
-const difficulty = getDifficulty();
+// const difficulty = getDifficulty();
+const difficulty = 0;
 const maxRange = getMaxRange(difficulty);
 const maxBombs = 16;
 const maxPlayerTries = maxRange - maxBombs;
 
 const bombs = getBombs(maxBombs, maxRange);
-const playerNumbers = getPlayerNumbers(bombs, maxPlayerTries, maxRange);
+const safeCells = [];
+// const playerNumbers = getPlayerNumbers(bombs, maxPlayerTries, maxRange);
+// const playerNumbers = [];
 
-const playerScore = playerNumbers.length;
-const playerWon = playerNumbers.length === maxPlayerTries;
+// const playerScore = playerNumbers.length;
+// const playerWon = playerNumbers.length === maxPlayerTries;
 
-if (playerWon) {
-  alert(`Complimenti! Hai vinto! Il tuo punteggio è: ${playerScore}`);
-} else {
-  alert(`Peccato, hai beccato una bomba! Il tuo punteggio è: ${playerScore}`);
-}
+// if (playerWon) {
+//   alert(`Complimenti! Hai vinto! Il tuo punteggio è: ${playerScore}`);
+// } else {
+//   alert(`Peccato, hai beccato una bomba! Il tuo punteggio è: ${playerScore}`);
+// }
 
 // DOM
 const statDifficulty = document.getElementById("difficulty");
-statDifficulty.innerHTML += getStrFromDifficulty(difficulty);
+statDifficulty.innerHTML = getStrFromDifficulty(difficulty);
 
 const statScore = document.getElementById("score");
-statScore.innerHTML += playerScore;
+statScore.innerHTML = 0;
 
-const row = document.getElementById("cellsRow");
-for (let i = 0; i < maxRange; i++) {
-  const cell = document.createElement("div");
-  cell.id = `cell-${i + 1}`;
-  cell.classList.add("cell");
-  row.append(cell);
+drawGameField();
+
+const cells = document.getElementsByClassName("cell");
+for (let i = 0; i < cells.length; i++) {
+  const cell = cells[i];
+
+  cell.addEventListener("click", function () {
+    if (bombs.includes(i + 1)) {
+      cell.classList.add("bomb");
+
+      document.querySelector(".game-field").style.display = "none";
+      document.querySelector(".lose").style.display = "block";
+    } else {
+      cell.classList.add("safe");
+
+      if (!safeCells.includes(cell)) {
+        safeCells.push(cell);
+        statScore.innerHTML = safeCells.length;
+      }
+
+      if (safeCells.length === maxPlayerTries) {
+        document.querySelector(".game-field").style.display = "none";
+        document.querySelector(".win").style.display = "block";
+      }
+    }
+  });
 }

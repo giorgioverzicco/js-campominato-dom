@@ -53,3 +53,17 @@ body {
   height: 100px;
   background-color: #6dbefe;
 }
+
+.bomb {
+  background-color: red;
+}
+
+.safe {
+  background-color: green;
+}
+
+.win,
+.lose {
+  display: none;
+  text-align: center;
+}
