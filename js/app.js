@@ -22,26 +22,31 @@ function getMaxRange(difficulty) {
   return 50;
 }
 
+function getBombs(nElements, maxRandomRange) {
+  const bombs = [];
+
+  while (bombs.length < nElements) {
+    const rand = Math.floor(Math.random() * maxRandomRange) + 1;
+
+    if (!bombs.includes(rand)) {
+      bombs.push(rand);
+    }
+  }
+
+  return bombs;
+}
+
 const DIFFICULTY = getDifficulty();
 const MAX_RANGE = getMaxRange(DIFFICULTY);
 
 const MAX_BOMBS = 16;
 const MAX_PLAYER_TRIES = MAX_RANGE - MAX_BOMBS;
 
-const bombs = [];
+const bombs = getBombs(MAX_BOMBS, MAX_RANGE);
 const playerNumbers = [];
 
 let playerScore = 0;
 let playerWon = true;
-
-// generate X random numbers to act as bombs
-while (bombs.length < MAX_BOMBS) {
-  const rand = Math.floor(Math.random() * MAX_RANGE) + 1;
-
-  if (!bombs.includes(rand)) {
-    bombs.push(rand);
-  }
-}
 
 // ask player to digit a number and find if that number is a bomb
 while (playerNumbers.length < MAX_PLAYER_TRIES) {
