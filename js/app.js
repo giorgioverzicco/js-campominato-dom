@@ -56,7 +56,6 @@ function getPlayerNumbers(maxTries, maxRandomRange) {
 
 const DIFFICULTY = getDifficulty();
 const MAX_RANGE = getMaxRange(DIFFICULTY);
-
 const MAX_BOMBS = 16;
 const MAX_PLAYER_TRIES = MAX_RANGE - MAX_BOMBS;
 
