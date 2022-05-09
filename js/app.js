@@ -36,6 +36,24 @@ function getBombs(nElements, maxRandomRange) {
   return bombs;
 }
 
+function getPlayerNumbers(maxTries, maxRandomRange) {
+  const playerNumbers = [];
+
+  while (playerNumbers.length < maxTries) {
+    const playerNumber = Number(prompt(`Digita un numero compreso tra 1 e ${maxRandomRange}`));
+    if (isNaN(playerNumber) || playerNumber < 1 || playerNumber > maxRandomRange) continue;
+    if (bombs.includes(playerNumber)) break;
+
+    if (!playerNumbers.includes(playerNumber)) {
+      playerNumbers.push(playerNumber);
+    } else {
+      alert(`Hai già digitato ${playerNumber}! Devi digitare numeri diversi!`);
+    }
+  }
+
+  return playerNumbers;
+}
+
 const DIFFICULTY = getDifficulty();
 const MAX_RANGE = getMaxRange(DIFFICULTY);
 
@@ -43,28 +61,10 @@ const MAX_BOMBS = 16;
 const MAX_PLAYER_TRIES = MAX_RANGE - MAX_BOMBS;
 
 const bombs = getBombs(MAX_BOMBS, MAX_RANGE);
-const playerNumbers = [];
+const playerNumbers = getPlayerNumbers(MAX_PLAYER_TRIES, MAX_RANGE);
 
-let playerScore = 0;
-let playerWon = true;
-
-// ask player to digit a number and find if that number is a bomb
-while (playerNumbers.length < MAX_PLAYER_TRIES) {
-  const playerNumber = Number(prompt(`Digita un numero compreso tra 1 e ${MAX_RANGE}`));
-  if (isNaN(playerNumber) || playerNumber < 1 || playerNumber > MAX_RANGE) continue;
-
-  if (bombs.includes(playerNumber)) {
-    playerWon = false;
-    break;
-  }
-
-  if (!playerNumbers.includes(playerNumber)) {
-    playerNumbers.push(playerNumber);
-    ++playerScore;
-  } else {
-    alert(`Hai già digitato ${playerNumber}! Devi digitare numeri diversi!`);
-  }
-}
+const playerScore = playerNumbers.length;
+const playerWon = playerNumbers.length === MAX_PLAYER_TRIES;
 
 if (playerWon) {
   alert(`Complimenti! Hai vinto! Il tuo punteggio è: ${playerScore}`);
