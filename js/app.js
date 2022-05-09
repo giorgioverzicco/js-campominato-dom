@@ -1,3 +1,7 @@
+// ======================================
+//   FUNCTIONS
+// ======================================
+
 function getDifficulty() {
   let difficulty;
 
@@ -53,6 +57,10 @@ function getPlayerNumbers(maxTries, maxRandomRange) {
 
   return playerNumbers;
 }
+
+// ======================================
+//   MAIN
+// ======================================
 
 const DIFFICULTY = getDifficulty();
 const MAX_RANGE = getMaxRange(DIFFICULTY);
