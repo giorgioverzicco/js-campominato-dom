@@ -17,6 +17,15 @@ function getDifficulty() {
   return difficulty;
 }
 
+function getStrFromDifficulty(difficulty) {
+  if (difficulty === 0) {
+    return "Facile";
+  } else if (difficulty === 1) {
+    return "Normale";
+  }
+  return "Difficile";
+}
+
 function getMaxRange(difficulty) {
   if (difficulty === 0) {
     return 100;
@@ -77,4 +86,19 @@ if (playerWon) {
   alert(`Complimenti! Hai vinto! Il tuo punteggio è: ${playerScore}`);
 } else {
   alert(`Peccato, hai beccato una bomba! Il tuo punteggio è: ${playerScore}`);
+}
+
+// DOM
+const statDifficulty = document.getElementById("difficulty");
+statDifficulty.innerHTML += getStrFromDifficulty(difficulty);
+
+const statScore = document.getElementById("score");
+statScore.innerHTML += playerScore;
+
+const row = document.getElementById("cellsRow");
+for (let i = 0; i < maxRange; i++) {
+  const cell = document.createElement("div");
+  cell.id = `cell-${i + 1}`;
+  cell.classList.add("cell");
+  row.append(cell);
 }
