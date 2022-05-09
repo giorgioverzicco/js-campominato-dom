@@ -40,7 +40,7 @@ function getBombs(nElements, maxRandomRange) {
   return bombs;
 }
 
-function getPlayerNumbers(maxTries, maxRandomRange) {
+function getPlayerNumbers(bombs, maxTries, maxRandomRange) {
   const playerNumbers = [];
 
   while (playerNumbers.length < maxTries) {
@@ -62,16 +62,16 @@ function getPlayerNumbers(maxTries, maxRandomRange) {
 //   MAIN
 // ======================================
 
-const DIFFICULTY = getDifficulty();
-const MAX_RANGE = getMaxRange(DIFFICULTY);
-const MAX_BOMBS = 16;
-const MAX_PLAYER_TRIES = MAX_RANGE - MAX_BOMBS;
+const difficulty = getDifficulty();
+const maxRange = getMaxRange(difficulty);
+const maxBombs = 16;
+const maxPlayerTries = maxRange - maxBombs;
 
-const bombs = getBombs(MAX_BOMBS, MAX_RANGE);
-const playerNumbers = getPlayerNumbers(MAX_PLAYER_TRIES, MAX_RANGE);
+const bombs = getBombs(maxBombs, maxRange);
+const playerNumbers = getPlayerNumbers(bombs, maxPlayerTries, maxRange);
 
 const playerScore = playerNumbers.length;
-const playerWon = playerNumbers.length === MAX_PLAYER_TRIES;
+const playerWon = playerNumbers.length === maxPlayerTries;
 
 if (playerWon) {
   alert(`Complimenti! Hai vinto! Il tuo punteggio è: ${playerScore}`);
