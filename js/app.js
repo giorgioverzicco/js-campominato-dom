@@ -80,14 +80,16 @@ function drawGameField() {
 //   MAIN
 // ======================================
 
-// const difficulty = getDifficulty();
-const difficulty = 0;
+let gameStatus = true;
+
+const difficulty = getDifficulty();
 const maxRange = getMaxRange(difficulty);
 const maxBombs = 16;
 const maxPlayerTries = maxRange - maxBombs;
 
 const bombs = getBombs(maxBombs, maxRange);
-const safeCells = [];
+
+// OLD LOGIC
 // const playerNumbers = getPlayerNumbers(bombs, maxPlayerTries, maxRange);
 // const playerNumbers = [];
 
@@ -99,8 +101,11 @@ const safeCells = [];
 // } else {
 //   alert(`Peccato, hai beccato una bomba! Il tuo punteggio è: ${playerScore}`);
 // }
+// END -- OLD LOGIC
 
 // DOM
+const safeCells = [];
+
 const statDifficulty = document.getElementById("difficulty");
 statDifficulty.innerHTML = getStrFromDifficulty(difficulty);
 
@@ -114,11 +119,15 @@ for (let i = 0; i < cells.length; i++) {
   const cell = cells[i];
 
   cell.addEventListener("click", function () {
+    if (!gameStatus) return;
+
     if (bombs.includes(i + 1)) {
       cell.classList.add("bomb");
+      gameStatus = false;
 
-      document.querySelector(".game-field").style.display = "none";
-      document.querySelector(".lose").style.display = "block";
+      document.querySelector("body").style.overflow = "hidden";
+      document.querySelector(".game-status__wrapper").style.display = "flex";
+      document.querySelector(".lose").style.display = "flex";
     } else {
       cell.classList.add("safe");
 
@@ -128,8 +137,11 @@ for (let i = 0; i < cells.length; i++) {
       }
 
       if (safeCells.length === maxPlayerTries) {
-        document.querySelector(".game-field").style.display = "none";
-        document.querySelector(".win").style.display = "block";
+        gameStatus = false;
+
+        document.querySelector("body").style.overflow = "hidden";
+        document.querySelector(".game-status__wrapper").style.display = "flex";
+        document.querySelector(".win").style.display = "flex";
       }
     }
   });
